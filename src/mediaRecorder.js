@@ -1,7 +1,3 @@
-const videoElem = document.getElementById("video");
-const startElem = document.getElementById("start");
-const stopElem = document.getElementById("stop");
-
 const displayMediaOptions = {
   video: true,
   audio: true,
@@ -11,7 +7,7 @@ const chunks = [];
 let mediaRecorder = null;
 
 async function startCapture() {
-  console.log('Start')
+  console.log('Start Capturing')
   let capturedStream = null;
 
   try {
@@ -35,16 +31,13 @@ function recordStream(stream) {
 }
 
 function stopCapture(evt) {
-  console.log('Stop')
+  console.log('Stop Capturing')
   mediaRecorder.stop();
-  let tracks = videoElem.srcObject.getTracks();
-
-  tracks.forEach(track => track.stop());
-  videoElem.srcObject = null;
+  
   download(chunks);
 }
 
-function download(recordedChunks) {
+function download(recordedChunks) { 
   var blob = new Blob(recordedChunks, {
     type: 'video/webm'
   });
@@ -58,12 +51,37 @@ function download(recordedChunks) {
   window.URL.revokeObjectURL(url);
 }
 
-// Set event listeners for the start and stop buttons
-startElem.addEventListener("click", async function(evt) {
+const onStopClick = () => {
+  const button = document.querySelector('#sc-button');
+
+  stopCapture();
+
+  button.classList.remove('recording');
+  button.innerText = "Start Recording";
+
+  button.removeEventListener('click', onStopClick);
+  button.addEventListener('click', onStartClick);
+}
+
+const onStartClick = async () => {
+  const button = document.querySelector('#sc-button');
+
   const stream = await startCapture();
   if(stream) recordStream(stream);
-}, false);
 
-stopElem.addEventListener("click", function(evt) {
-  stopCapture();
-}, false);
+  button.classList.add('recording');
+  button.innerText = "Stop Recording";
+
+  button.removeEventListener('click', onStartClick);
+  button.addEventListener('click', onStopClick);
+}
+
+
+
+const initialiseRecorder = () => {
+  const button = document.querySelector('#sc-button');
+
+  button.addEventListener('click', onStartClick)
+}
+
+export { initialiseRecorder }
