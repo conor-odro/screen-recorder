@@ -22,7 +22,7 @@ const getUserMediaStream = async (constraints) => {
 const initiateMediaViewer = async (data) => {
   try {
     console.log('Initiating Media Viewer')
-    const video = document.querySelector('video');
+    const video = document.querySelector('#sc-video');
     const stream = await getUserMediaStream(defaultConstraints);
     console.log({ stream, video })
     video.muted = true;
@@ -33,16 +33,19 @@ const initiateMediaViewer = async (data) => {
 }
 
 const injectUI = async () => {
-  const screenRecorder = await fetch(chrome.runtime.getURL('src/screen-recorder.html'));
+  const screenRecorder = await fetch(chrome.runtime.getURL('/src/screen-recorder.html'));
   const screenRecorderHTML = await screenRecorder.text();
   
-  document.head.insertAdjacentHTML('beforeend', '<link href="' + chrome.runtime.getURL('src/screen-recorder.css') + '" rel="stylesheet">')
+  document.head.insertAdjacentHTML('beforeend', '<link href="' + chrome.runtime.getURL('/src/screen-recorder.css') + '" rel="stylesheet">')
   document.body.insertAdjacentHTML('beforeend', screenRecorderHTML);
 }
 
 const initialiseExtension = async () => {
   await injectUI();
-  initiateMediaViewer();
+  await initiateMediaViewer();
+
+  const mediaRecorder = await import(chrome.extension.getURL('/src/mediaRecorder.js'));
+  mediaRecorder.initialiseRecorder();
 }
 
 initialiseExtension();
