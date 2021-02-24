@@ -1,8 +1,8 @@
 {
-  "name": "Getting Started Example",
+  "name": "Tab Capture Playground",
   "version": "1.0",
   "manifest_version": 2,
-  "description": "Build an Extension!",
+  "description": "Playground for testing Capture streams",
   "permissions": ["activeTab", "tabCapture"],
   "background": {
     "scripts": ["background.js"]
