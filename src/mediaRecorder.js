@@ -38,7 +38,7 @@ const onStopClick = () => {
 const onStartClick = async () => {
   const button = document.querySelector('#sc-button');
 
-  chrome.runtime.sendMessage({ action: 'startRecording', payload: { isTabCapture: false } });
+  chrome.runtime.sendMessage({ action: 'startRecording', payload: { isTabCapture: true } });
 
   button.classList.add('recording');
   button.innerText = "Stop Recording";
