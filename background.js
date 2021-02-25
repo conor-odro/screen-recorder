@@ -26,7 +26,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     setTimeout(() => {
       const url = URL.createObjectURL(new Blob(chunks));
       console.log('final video URL', url);
-      sendResponse({ url })
+      sendResponse({ url });
+      chunks.length = 0;
     }, 5000)
   }
 
