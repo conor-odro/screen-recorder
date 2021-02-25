@@ -2,7 +2,7 @@
   "name": "Tab Capture Playground",
   "version": "1.0",
   "manifest_version": 2,
-  "description": "Playground for testing Capture streams",
+  "description": "Playground for screen recording",
   "permissions": ["activeTab", "tabCapture"],
   "background": {
     "scripts": ["background.js"]
