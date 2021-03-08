@@ -3,9 +3,10 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "Playground for screen recording",
-  "permissions": ["activeTab", "tabCapture"],
+  //"permissions": ["activeTab", "tabCapture"],
+  "permissions": ["<all_urls>","activeTab", "tabCapture", "tabs", "downloads", "storage", "identity", "https://www.googleapis.com/*"],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["screenity-background.js"]
   },
   "browser_action": {
     "default_title": "Screen recorder"

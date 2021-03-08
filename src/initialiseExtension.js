@@ -1,11 +1,16 @@
+// const defaultConstraints = {
+//   audio: true,
+//   video: {
+//     width: { min: 320, ideal: 1024, max: 2048 },
+//     height: { min: 240, ideal: 768, max: 1536 },
+//     facingMode: 'user',
+//   },
+// };
+
 const defaultConstraints = {
-  audio: true,
-  video: {
-    width: { min: 320, ideal: 1024, max: 2048 },
-    height: { min: 240, ideal: 768, max: 1536 },
-    facingMode: 'user',
-  },
-};
+  audio: false,
+  video: true
+}
 
 const getUserMediaStream = async (constraints) => {
   try {
@@ -25,7 +30,7 @@ const initiateMediaViewer = async (data) => {
     const video = document.querySelector('#sc-video');
     const stream = await getUserMediaStream(defaultConstraints);
     console.log({ stream, video })
-    video.muted = true;
+    //video.muted = true;
     video.srcObject = stream;
   } catch (err) {
     console.error(err);

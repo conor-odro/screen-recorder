@@ -23,10 +23,11 @@ const downloadFromUrl = (url) => {
 const onStopClick = () => {
   const button = document.querySelector('#sc-button');
 
-  chrome.runtime.sendMessage({ action: 'stopRecording' }, response => { 
-    console.log('Recieved URL: ', response.url);
-    downloadFromUrl(response.url)
-  });
+  // chrome.runtime.sendMessage({ action: 'stopRecording' }, response => { 
+  //   console.log('Recieved URL: ', response.url);
+  //   downloadFromUrl(response.url)
+  // });
+  chrome.runtime.sendMessage({ type: "stop-save" }); 
 
   button.classList.remove('recording');
   button.innerText = "Start Recording";
@@ -38,8 +39,9 @@ const onStopClick = () => {
 const onStartClick = async () => {
   const button = document.querySelector('#sc-button');
 
-  chrome.runtime.sendMessage({ action: 'startRecording', payload: { isTabCapture: true } });
-
+  // chrome.runtime.sendMessage({ action: 'startRecording', payload: { isTabCapture: true } });
+  chrome.runtime.sendMessage({ type: "record" });
+ 
   button.classList.add('recording');
   button.innerText = "Stop Recording";
 
@@ -48,12 +50,16 @@ const onStartClick = async () => {
 
 }
 
-
-
 const initialiseRecorder = () => {
   const button = document.querySelector('#sc-button');
 
   button.addEventListener('click', onStartClick)
 }
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.type === 'save') {
+    downloadFromUrl(request.url)
+  }
+});
 
 export { initialiseRecorder }
